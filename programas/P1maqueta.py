@@ -1,1 +1,1 @@
-# Programa que simula un timbre dunha casa
+# Programa que codifica a temperatura con cores mediante LED neopixel
