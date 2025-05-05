@@ -1,8 +1,4 @@
-""" Programa completo da fila 1 para a maqueta domótica.
-Autores: Huse, Santiago ,Gandy
-Data:5/5/2025
-
-from microbit import *
+from import microbit*
 import neopixel
 
 # Configuración del sensor PIR y los neopixels
@@ -20,7 +16,14 @@ def parpadeo_neopixel(color, veces):
         np.show()   
         sleep(500)
 
-def parpadeo_led_blanco(veces):
+def parpadeo_led_blanco(5):
+    for _ in range(5):
+        display.show(Image.SQUARE)  # LED blanco encendido
+        sleep(500)
+        display.clear()  # Apagar LED
+        sleep(500)
+
+def parpadeo_led_rojo(5):
     for _ in range(5):
         display.show(Image.SQUARE)  # LED blanco encendido
         sleep(500)
@@ -54,3 +57,4 @@ while True:
         mostrar_cara_enfadada(5)
     else:
         mostrar_casa()  # Mostrar casa si no hay presencia
+
