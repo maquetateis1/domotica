@@ -52,14 +52,11 @@ while True:
         sleep(1000)  # Esperar un segundo
         music.play(music.RINGTONE, wait=False)
         
-        # Parpadeo de neopixels en rojo
-        parpadeo_neopixel((255, 0, 0), 5)
+        parpadeo_neopixel((255, 0, 0), 5)  # Parpadeo de neopixels en rojo
         
-        # Parpadeo del LED blanco
-        parpadeo_led_blanco(5)
+        parpadeo_led_blanco(5) # Parpadeo del LED blanco
         
-        # Mostrar cara enfadada
-        mostrar_cara_enfadada(5)
+        mostrar_cara_enfadada(5)  # Mostrar cara enfadada
     else:
         mostrar_casa()  # Mostrar casa si no hay presencia
 
