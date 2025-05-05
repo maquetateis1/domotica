@@ -10,32 +10,32 @@ def parpadeo_neopixel(color, veces):
         for i in range(len(np)):
             np[i] = color
         np.show()
-        sleep(500)
+        sleep(500) # esperar medio seg
         for i in range(len(np)):
             np[i] = (0, 0, 0)  # Apagar los LEDs
         np.show()   
-        sleep(500)
+        sleep(500) # esperar medio seg
 
 def parpadeo_led_blanco(blanco,5):
     for _ in range(5):
         display.show(Image.SQUARE)  # LED blanco encendido
-        sleep(500)
+        sleep(500) # esperar medio seg
         display.clear()  # Apagar LED
-        sleep(500)
+        sleep(500) # esperar medio seg
 
 def parpadeo_led_rojo(rojo ,5):
     for _ in range(5):
         display.show(Image.SQUARE)  # LED rojo encendido
-        sleep(500)
+        sleep(500) # esperar medio seg
         display.clear()  # Apagar LED
-        sleep(500)
+        sleep(500) # esperar medio seg
 
 def mostrar_cara_enfadada(veces):
     for _ in range(5):
         display.show(Image.SAD)  # Mostrar cara enfadada
-        sleep(500)
+        sleep(500) # esperar medio seg
         display.clear()  # Apagar
-        sleep(500)
+        sleep(500) # esperar medio seg
 
 def mostrar_casa():
     display.show(Image.HOUSE)  # Mostrar casa
