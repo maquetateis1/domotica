@@ -1,4 +1,4 @@
-from import microbit*
+from microbit import*
 import neopixel
 
 # Configuración del sensor PIR y los neopixels
@@ -16,16 +16,16 @@ def parpadeo_neopixel(color, veces):
         np.show()   
         sleep(500)
 
-def parpadeo_led_blanco(5):
+def parpadeo_led_blanco(blanco,5):
     for _ in range(5):
         display.show(Image.SQUARE)  # LED blanco encendido
         sleep(500)
         display.clear()  # Apagar LED
         sleep(500)
 
-def parpadeo_led_rojo(5):
+def parpadeo_led_rojo(rojo ,5):
     for _ in range(5):
-        display.show(Image.SQUARE)  # LED blanco encendido
+        display.show(Image.SQUARE)  # LED rojo encendido
         sleep(500)
         display.clear()  # Apagar LED
         sleep(500)
