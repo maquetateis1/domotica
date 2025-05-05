@@ -6,7 +6,7 @@ pir_pin = pin0  # Pin donde está conectado el sensor PIR
 np = neopixel.NeoPixel(pin1, 10)  # 10 LEDs neopixel en el pin1
 
 def parpadeo_neopixel(color, veces):
-    for _ in range(5):
+    for demostrar in range(5):
         for i in range(len(np)):
             np[i] = color
         np.show()
@@ -17,21 +17,21 @@ def parpadeo_neopixel(color, veces):
         sleep(500) # esperar medio seg
 
 def parpadeo_led_blanco(blanco,5):
-    for _ in range(5):
+    for i in range(5):
         display.show(Image.SQUARE)  # LED blanco encendido
         sleep(500) # esperar medio seg
         display.clear()  # Apagar LED
         sleep(500) # esperar medio seg
 
 def parpadeo_led_rojo(rojo ,5):
-    for _ in range(5):
+    for i in range(5):
         display.show(Image.SQUARE)  # LED rojo encendido
         sleep(500) # esperar medio seg
         display.clear()  # Apagar LED
         sleep(500) # esperar medio seg
 
 def mostrar_cara_enfadada(veces):
-    for _ in range(5):
+    for i in range(5):
         display.show(Image.SAD)  # Mostrar cara enfadada
         sleep(500) # esperar medio seg
         display.clear()  # Apagar
