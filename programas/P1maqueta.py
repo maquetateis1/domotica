@@ -14,8 +14,8 @@ while True:
 
     # Si la temperatura es mayor a 28 grados, encender los LEDs
     if temperatura > 15:
-        np[0] = (255, 0, 0)  # Encender el Neopixel 1 en rojo
-        np[1] = (255, 0, 0)  # Encender el Neopixel 2 en rojo
+        np[0] = (0, 255, 0)  # Encender el Neopixel 1 en rojo
+        np[1] = (0, 255, 0)  # Encender el Neopixel 2 en rojo
         np.show()  # Mostrar el color en el LED
         led_normal.write_digital(1)  # Encender el LED normal
     else:
