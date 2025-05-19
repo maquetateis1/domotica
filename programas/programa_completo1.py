@@ -2,3 +2,17 @@
 Autores: 
 Data: 
 """
+
+from microbit import *
+import music
+from machine import Pin
+
+# Definir o LED no pin 14
+led_pin = Pin(14, Pin.OUT)
+
+while True:
+    if button_a.was_pressed():
+        led_pin.write_digital(1)  # Acende o LED conectado ao pin 14
+        music.play(music.RINGTONE)  # Reproduce o son RINGTONE
+        sleep(5000)  # Espera 5 segundos
+        led_pin.write_digital(0)  # Apaga o LED
