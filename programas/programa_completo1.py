@@ -2,10 +2,9 @@
 Autores: 
 Data: 
 """
-
 from microbit import *
-import music
 from machine import Pin
+import music
 import music
 import neopixel
 
