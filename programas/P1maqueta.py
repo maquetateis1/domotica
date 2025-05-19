@@ -21,6 +21,6 @@ while True:
         np[0] = (255, 0, 0)  # Apagar os Neopixel
         np[1] = (255, 0, 0)  # Acender os Neopixel en verde
         np.show()  # Mostrar a cor nos neopixel
-        led.write_digital(1)  # Apagar o LED normal
+        rele.write_digital(1)  # Apagar o LED normal
 
-    sleep(1000)  # Esperar 1 segundo
+    sleep(100)  # Esperar 1 segundo
