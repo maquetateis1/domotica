@@ -7,6 +7,7 @@ from machine import Pin
 import music
 import music
 import neopixel
+import time
 
 np = neopixel.NeoPixel(pin13, 2)  # 2 LED neopixel conectados ao pin 13
 
@@ -17,6 +18,9 @@ led_pin = Pin(14, Pin.OUT)
 # El servo está conectado a pin0
 servo = machine.PWM(machine.Pin(0))
 servo.freq(50)
+# Inicializar el servo en el pin0
+pin0.set_analog_period(20)  # Período 20ms (50Hz)
+angle = 0
 # PIR sensor conectado a pin0
 pir = pin0
 # Tira de neopixels conectada a pin1 con 8 LEDs
@@ -31,29 +35,21 @@ while True:
         music.play(music.RINGTONE)  # Reproduce o son RINGTONE
         sleep(5000)  # Espera 5 segundos
         led_pin.write_digital(0)  # Apaga o LED
-
-
-def set_angle(angle):
-    duty = 26 + (angle * (128-26)) // 180
-    servo.duty(duty)
-
-# Estado inicial
-angle = 0
-set_angle(angle)
-
-button_b_last = False
-
+        
 while True:
-    button_b = button_b.is_pressed()
-    if button_b and not button_b_last:
-        # Cambiar ángulo
-        if angle == 0:
-            angle = 90
+    # Calcular d en línea
+    pulse_ms = 0.5 + (angle / 180.0) * 2.0
+    duty = int((pulse_ms / 20) * 1023)
+    pin0.write_analog(duty)
+    sleep(100)
+
+    if button_b.was_pressed():
+        # Incrementar angulo en 10 hasta 90, luego 0
+        if angle < 90:
+            angle += 10
         else:
             angle = 0
-        set_angle(angle)
-    button_b_last = button_b
-    sleep(50)
+
 
 while True:
     if pir.read_digital() == 1:  # presencia detectada
