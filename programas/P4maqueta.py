@@ -37,4 +37,4 @@ while True:
         else:
             position = 0
         servo_pin.duty_u16(angle_to_duty(position))
-    sleep(10)
+    sleep(10)  
