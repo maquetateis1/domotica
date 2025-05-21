@@ -70,12 +70,6 @@ while True:
     pulse = min_pulse + (max_pulse - min_pulse) * angle / 180
     duty = int(pulse * 65535 / period)
     return duty
-
-# Start with servo at 0 degrees
-position = 0
-servo_pin.duty_u16(angle_to_duty(position))
-
-while True:
     if button_b.was_pressed():
         if position == 0:
             position = 90
