@@ -1,5 +1,5 @@
 """Programa completo da fila 1 para a maqueta domótica. 
-Autores: Housain, Santiago, Gandy.
+Autores: Housain.
 Data:5/5/2025"""
 from microbit import *
 import music
