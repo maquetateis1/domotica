@@ -3,96 +3,50 @@ Autores: Santiago Pereira
 Data: 30/04/2025
 """
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Neopixel y Ventilador</title>
-<style>
-  body {
-    background: #121212;
-    color: #eee;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-  }
-  .led {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background-color: #222;
-    margin-bottom: 20px;
-    box-shadow: 0 0 20px #111 inset;
-    transition: background-color 0.5s ease;
-  }
-  .led.glow {
-    box-shadow:
-      0 0 40px currentColor,
-      0 0 80px currentColor,
-      0 0 120px currentColor;
-  }
-  h1 {
-    margin-bottom: 10px;
-  }
-  input[type=range] {
-    width: 300px;
-  }
-  .ventilador-status {
-    margin-top: 15px;
-    font-weight: bold;
-    font-size: 1.4em;
-  }
-  .temp-display {
-    margin: 10px 0;
-    font-size: 2em;
-    font-weight: 600;
-    font-family: monospace;
-  }
-</style>
-</head>
-<body>
+import time
+import board
+import neopixel
+import adafruit_dht
 
-<h1>Control LED Neopixel y Ventilador</h1>
+# Configuración de pines (ajusta según tu conexión)
+PIN_NEOPIXEL = board.D2  # Pin donde conectas los Neopixel (ej. GPIO2 en ESP32)
+PIN_RELE_VENTILADOR = board.D4  # Pin donde conectas el relé del ventilador (ej. GPIO4 en ESP32)
+PIN_SENSOR_DHT = board.D15 # Pin donde conectas el sensor DHT11/22 (ej. GPIO15 en ESP32)
 
-<div class="led" id="led"></div>
-<div class="temp-display" id="tempDisplay">Temperatura: 18ºC</div>
-<input type="range" id="tempSlider" min="15" max="35" step="0.1" value="18" aria-label="Selector de temperatura"/>
-<div class="ventilador-status" id="ventiladorStatus">Ventilador apagado</div>
+NUM_PIXELS = 1 # Si solo tienes un Neopixel, si tienes una tira ajusta este valor
 
-<script>
-  const led = document.getElementById('led');
-  const tempDisplay = document.getElementById('tempDisplay');
-  const tempSlider = document.getElementById('tempSlider');
-  const ventiladorStatus = document.getElementById('ventiladorStatus');
+# Inicialización de Neopixel
+pixels = neopixel.NeoPixel(PIN_NEOPIXEL, NUM_PIXELS, brightness=0.5, auto_write=False)
 
-  let temperatura = parseFloat(tempSlider.value);
+# Inicialización del sensor DHT
+dht_sensor = adafruit_dht.DHT22(PIN_SENSOR_DHT) # O adafruit_dht.DHT11 si usas ese modelo
 
-  tempSlider.addEventListener('input', () => {
-    temperatura = parseFloat(tempSlider.value);
-    tempDisplay.textContent = 'Temperatura: ' + temperatura.toFixed(1) + 'ºC';
+# Lógica principal del programa
+while True:
+    try:
+        temperatura = dht_sensor.temperature
+        print(f"Temperatura: {temperatura:.1f} ºC")
 
-    if (temperatura > 24) {
-      led.style.backgroundColor = '#e74c3c'; // rojo
-      led.classList.add('glow');
-      led.style.color = '#e74c3c';
-      ventiladorStatus.textContent = 'Ventilador activado';
-      ventiladorStatus.style.color = '#e74c3c';
-    } else {
-      led.style.backgroundColor = '#2ecc71'; // verde
-      led.classList.add('glow');
-      led.style.color = '#2ecc71';
-      ventiladorStatus.textContent = 'Ventilador apagado';
-      ventiladorStatus.style.color = '#2ecc71';
-    }
-  });
+        if temperatura > 24:
+            # Temperatura alta: Neopixel rojo y ventilador encendido
+            pixels.fill((255, 0, 0))  # Rojo
+            pixels.show()
+            board.digitalio.DigitalInOut(PIN_RELE_VENTILADOR).direction = board.digitalio.Direction.OUTPUT
+            board.digitalio.DigitalInOut(PIN_RELE_VENTILADOR).value = True # Activa el relé
+            print("Temperatura > 24ºC: LED ROJO, Ventilador ENCENDIDO")
+        else:
+            # Temperatura baja: Neopixel verde y ventilador apagado
+            pixels.fill((0, 255, 0))  # Verde
+            pixels.show()
+            board.digitalio.DigitalInOut(PIN_RELE_VENTILADOR).direction = board.digitalio.Direction.OUTPUT
+            board.digitalio.DigitalInOut(PIN_RELE_VENTILADOR).value = False # Desactiva el relé
+            print("Temperatura <= 24ºC: LED VERDE, Ventilador APAGADO")
 
-  tempSlider.dispatchEvent(new Event('input'));
-</script>
+    except RuntimeError as error:
+        # Errores de lectura del sensor DHT (comunes al inicio)
+        print(f"Error al leer el sensor DHT: {error.args[0]}")
+    except Exception as error:
+        # Otros errores inesperados
+        print(f"Ocurrió un error inesperado: {error}")
 
-</body>
-</html>
+    time.sleep(5) # Espera 5 segundos antes de la siguiente lectura
